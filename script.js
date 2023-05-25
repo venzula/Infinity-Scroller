@@ -12,9 +12,9 @@ const apiUrl = `https://api.unsplash.com/photos/random?client_id=${apiKey}&count
 
 function imageLoaded() {
   imagesLoaded++;
+  console.log(imagesLoaded);
   if (imagesLoaded === totalImages) {
     ready = true;
-    console.log("ready =", ready);
   }
 }
 
@@ -27,8 +27,8 @@ function setAttributes(element, attributes) {
 
 //Create Elements for Links & Photos,add to DOM
 function displayPhotos() {
+  imagesLoaded=0;
   totalImages = photosArry.length;
-  console.log("total image", totalImages);
   //run function for eachobject in photoArry
   photosArry.forEach((photo) => {
     //creating <a> to link to unsplah
@@ -69,6 +69,15 @@ async function getPhotos() {
     //catch error here
   }
 }
+
+window.addEventListener('scroll',() => {
+if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && ready) {
+  ready = false;
+  getPhotos();
+}
+});
+
+
 
 //On Load
 getPhotos();
